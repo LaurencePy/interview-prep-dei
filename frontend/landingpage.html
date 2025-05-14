@@ -17,25 +17,48 @@
     
     <div class="infoContainer" style="display:none;">
         <h1>Provide Information</h1>
-        <div class="uploadContainer" id="uploadButton">
-            <img src="fileUpload.svg" style="width:80px">
-            <h2>Upload CV</h2>
-        </div>
-        <div class="textInputContainer" style="margin-top: 20px;">
-            <input type="text" id="infoInput" placeholder="Enter job description" style="padding: 8px; width: 300px; height: 100px;">
-            
-        </div>
-        <div class = "submitAll" padding-top: 100px;>
-            <button id="submitInfo" style="padding: 8px 12px; vertical-align: middle;">
-                <p>Submit</p>
-            </button>
-        </div>
-        
+<div class="uploadContainer" id="uploadButton" style="cursor: pointer;">
+    <input class="fileInput" type="file" id="fileInput" style="display: none;">
+    <img src="fileUpload.svg" style="width:80px" onclick="document.getElementById('fileInput').click();">
+    <h2 onclick="document.getElementById('fileInput').click();" style="cursor: pointer;">Upload CV</h2>
+    <div id="fileNameContainer" style="margin-top:10px;"></div>
+</div>
+    
+    <div class="textInputContainer" style="margin-top: 50px;">
+        <textarea id="infoInput" placeholder="Enter job description" style="padding: 8px; width: 300px; height: 100px; resize: vertical;"></textarea>
+    </div>
+        <div class="submitAll" style="padding-top: 32px; display: flex; justify-content: center;">
+    <div>
+    
+    <h2 class="tag submitButton" id="goTag">Submit</h2>
+</div>
         
     </div>
         
     </div>
     <script src="landingpage.js"></script>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+    const fileNameContainer = document.getElementById('fileNameContainer');
+    fileNameContainer.innerHTML = '';
+    if (this.files && this.files[0]) {
+        const fileName = this.files[0].name;
+        const fileDiv = document.createElement('div');
+        fileDiv.style.display = 'flex';
+        fileDiv.style.alignItems = 'center';
+        fileDiv.innerHTML = `
+            <span style="margin-right:8px;">${fileName}</span>
+            <span id="removeFile" style="cursor:pointer;color:#e74c3c;font-weight:bold;font-size:1.2em;">&times;</span>
+        `;
+        fileNameContainer.appendChild(fileDiv);
+
+        document.getElementById('removeFile').onclick = function() {
+            document.getElementById('fileInput').value = '';
+            fileNameContainer.innerHTML = '';
+        };
+    }
+});
+    </script>
 </body>
 </html>
 

@@ -1,76 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Interview Feedback</title>
-  <link rel="stylesheet" href="styles/style.css">
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-    }
-    .container {
-      text-align: center;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 500px;
-    }
-    #chat-window {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      height: 300px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
-    #user-input {
-      width: calc(100% - 80px);
-      padding: 10px;
-      margin-right: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    #send-btn {
-      padding: 10px 20px;
-      border: none;
-      background-color: #007bff;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #send-btn:hover {
-      background-color: #0056b3;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Chat with AI and Get Feedback</h1>
-    
-    <!-- Chatbot Section -->
-    <div id="chatbot">
-      <div id="chat-window">
-        <div id="messages"></div>
-        <div id="loading" style="display: none;">Waiting for a response...</div>
-      </div>
-      <input type="text" id="user-input" placeholder="Type your message here">
-      <button id="send-btn">Send</button>
-    </div>
+<elevenlabs-convai 
+  agent-id="nxV8xivNPX2k9A7IUAjo"
+  context="Say the following words: Sam, Bob, and Jack.">
+</elevenlabs-convai>
+<script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 
-    <!-- Fullscreen Wrapper for ElevenLabs Widget -->
-    <div id="ai-widget-wrapper">
-      <elevenlabs-convai agent-id="nxV8xivNPX2k9A7IUAjo"></elevenlabs-convai>
-    </div>
-    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-  </div>
 
-  <script src="scripts/app.js"></
+
