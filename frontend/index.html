@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Interview Feedback</title>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>AI Interview Feedback</h1>
+    
+    <!-- Job Description Input -->
+    <label for="job-description">Job Description:</label>
+    <textarea id="job-description" placeholder="Paste the job description here"></textarea>
+    
+    <!-- CV Input -->
+    <label for="cv">Your CV:</label>
+    <textarea id="cv" placeholder="Paste your CV here"></textarea>
+    
+    
+
+
+
+    <!-- Chatbot Section -->
+    <div id="chatbot">
+      <h2>Chat with AI</h2>
+      <div id="chat-window">
+        <div id="messages"></div>
+        <div id="loading" style="display: none;">Waiting for a response...</div>
+      </div>
+      <input type="text" id="user-input" placeholder="Type your message here">
+      <button id="send-btn">Send</button>
+    </div>
+
+
+
+
+
+
+
+    <!-- Fullscreen Wrapper for ElevenLabs Widget -->
+    <div id="ai-widget-wrapper">
+      <elevenlabs-convai agent-id="nxV8xivNPX2k9A7IUAjo"></elevenlabs-convai>
+    </div>
+    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+  </div>
+
+  <script src="scripts/app.js"></script>
+</body>
+</html>

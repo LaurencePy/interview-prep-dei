@@ -1,0 +1,97 @@
+body {
+     background-color: #F2F2F2;
+}
+
+h1 {
+    font-family: 'Lato';
+    color : #000000;
+}
+
+h2 {
+    font-family: 'Lato';
+    color : #000000;
+}
+
+.mainContainer {
+    margin-top: 15%;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.infoContainer {
+    margin-top: 5%;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.uploadContainer {
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #D4C9BE;
+    border-radius: 10px;
+    padding : 20px;
+    padding-bottom : 5px;
+    transition: background-color 0.4s, transform 0.2s ease-in-out;
+    user-select: none;
+    cursor: pointer;
+}
+
+.uploadContainer:hover {
+    transform: scale(1.05);
+    background-color: #D4C5BE;
+}
+
+.tag:hover {
+    transform: scale(1.03);
+    background-color: #183B4E;
+}
+
+.dropsIn {
+    animation: dropIn 1s ease forwards;
+    animation-fill-mode: backwards;
+    animation-duration: 500ms;
+    transition: color 0.1s;
+}
+
+@keyframes dropIn {
+    from {transform: translateY(-20px); opacity: 0.0;}
+    to {transform: translateY(0px);opacity: 1.0;}
+}
+
+.tag {
+    display: flex;
+    justify-content: center;
+    background-color: #000000;
+    color: #F2F2F2;
+    padding: 12px;
+    border-radius: 30px;
+    align-items: center;
+    transition: background-color 0.4s, transform 0.2s ease-in-out;
+    user-select: none;
+    cursor: pointer;
+}
+
+.tag:hover {
+    transform: scale(1.05);
+    background-color: #183B4E;
+}
+
+
+#goTag {
+    color : #F2F2F2 
+}
+@keyframes slideUpFadeOut {
+    from {transform: translateY(0px); opacity: 1.0;}
+    to {transform: translateY(-20px); opacity: 0.0}
+}
+
+.slideUpFadeOut {
+    animation: slideUpFadeOut 300ms ease backwards;
+    transition: color 0.1s;
+}
