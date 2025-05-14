@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Practice Assistant</title>
+    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+    <style>
+        .interview-assistant {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .upload-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .file-upload, .job-description {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="file"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .chat-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="interview-assistant">
+        <h2>Interview Practice Assistant</h2>
+
+        <div class="upload-section">
+            <div class="file-upload">
+                <label for="cv-upload">Upload your CV/Resume:</label>
+                <input type="file" id="cv-upload" accept=".pdf,.doc,.docx,.txt">
+            </div>
+
+            <div class="job-description">
+                <label for="job-description">Paste Job Description:</label>
+                <textarea id="job-description" rows="6" placeholder="Paste the job description here..."></textarea>
+            </div>
+
+            <button id="start-interview" class="btn">Prepare Interview</button>
+        </div>
+
+        <div class="chat-container">
+            <elevenlabs-convai id="interview-bot" agent-id="L5FMKwbp2IItYYpjBzEo"></elevenlabs-convai>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cvUpload = document.getElementById('cv-upload');
+            const jobDescriptionInput = document.getElementById('job-description');
+            const startInterviewBtn = document.getElementById('start-interview');
+            const interviewBot = document.getElementById('interview-bot');
+            
+            let cvContent = '';
+
+            // Handle CV file upload
+            cvUpload.addEventListener('change', async (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    try {
+                        if (file.type === 'application/pdf') {
+                            // For PDF files, you might need a PDF parser library
+                            // This is a placeholder - in production use a proper PDF parser
+                            cvContent = `CV uploaded: ${file.name} (PDF parsing would be implemented in production)`;
+                            alert("PDF uploaded! In a production environment, we would parse the PDF content.");
+                        } else {
+                            // For text files
+                            cvContent = await file.text();
+                        }
+                    } catch (error) {
+                        console.error('Error reading file:', error);
+                        alert('Error reading file. Please try again.');
+                    }
+                }
+            });
+
+            // Start the interview when the button is clicked
+            startInterviewBtn.addEventListener('click', async () => {
+                const jobDescription = jobDescriptionInput.value.trim();
+                
+                if (!cvContent) {
+                    alert('Please upload your CV first.');
+                    return;
+                }
+                
+                if (!jobDescription) {
+                    alert('Please enter the job description.');
+                    return;
+                }
+                
+                // Show loading state
+                startInterviewBtn.disabled = true;
+                startInterviewBtn.textContent = 'Preparing interview questions...';
+                
+                try {
+                    // Call backend API to generate interview questions
+                    const response = await fetch('/review', { // Change to your backend endpoint
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ cvContent, jobDescription }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to generate interview questions');
+                    }
+
+                    const data = await response.json();
+                    const questions = data.questions;
+
+                    // Create context for the interview bot
+                    const interviewContext = `
+                        You are an AI interview preparation assistant. The person you are talking to is Bob. Always address them as Bob.
+                        
+                        CANDIDATE'S CV/RESUME:
+                        ${cvContent}
+                        
+                        JOB DESCRIPTION:
+                        ${jobDescription}
+                        
+                        INTERVIEW QUESTIONS TO USE:
+                        ${questions}
+                        
+                        INSTRUCTIONS:
+                        1. Act as an interviewer for the position described in the job description.
+                        2. Use the provided interview questions as your main questions.
+                        3. Provide constructive feedback after candidate responses.
+                        4. Focus on both technical skills and soft skills mentioned in the job description.
+                        5. Be professional but encouraging in your tone.
+                        
+                        Begin the interview by introducing yourself and addressing the person as Bob, and then ask the first question.
+                    `;
+
+                    // Update the context attribute of the Convai widget
+                    if (interviewBot) {
+                        interviewBot.setAttribute('context', interviewContext);
+
+                        // Check if the widget has a refresh or reset method
+                        if (typeof interviewBot.refresh === 'function') {
+                            interviewBot.refresh();
+                        } else {
+                            const parent = interviewBot.parentNode;
+                            const newBot = interviewBot.cloneNode(true);
+                            parent.replaceChild(newBot, interviewBot);
+                        }
+
+                        // Scroll to the chat
+                        document.querySelector('.chat-container').scrollIntoView({ behavior: 'smooth' });
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Failed to prepare interview questions. Please try again.');
+                } finally {
+                    // Reset button state
+                    startInterviewBtn.disabled = false;
+                    startInterviewBtn.textContent = 'Prepare Interview';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
